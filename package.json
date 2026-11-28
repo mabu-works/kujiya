@@ -1,0 +1,1 @@
+{"description":"くじや｜抽選ツール","name":"kujiya","private":true,"scripts":{"check":"node --check app.js && node --check sw.js && node --check js/draw-core.js","test":"node --test"},"version":"1.0.0"}

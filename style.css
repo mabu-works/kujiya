@@ -1,0 +1,348 @@
+/* 🎨 配色（ダークが既定） */
+:root {
+  --bg: #0a0f1c;
+  --panel: #111a2c;
+  --panel-2: #182642;
+  --border: #263650;
+  --text: #ecf1f8;
+  --muted: #9db1c7;
+  --accent: #6a8dff;
+  --accent-2: #2dd4bf;
+  --ok: #34c759;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --bar-bg: rgba(10, 15, 28, 0.82);
+  color-scheme: dark;
+}
+
+/* ☀️ ライトテーマ */
+:root[data-theme="light"] {
+  --bg: #f3f5fa;
+  --panel: #ffffff;
+  --panel-2: #edf1f8;
+  --border: #d5dfec;
+  --text: #17263e;
+  --muted: #5b6f88;
+  --shadow: 0 8px 24px rgba(30, 50, 90, 0.10);
+  --bar-bg: rgba(243, 245, 250, 0.88);
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, system-ui, sans-serif;
+  background:
+    radial-gradient(900px 480px at 85% -5%, rgba(45, 212, 191, 0.10) 0%, transparent 60%),
+    radial-gradient(1100px 620px at 10% -10%, rgba(106, 141, 255, 0.14) 0%, transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 🧭 上部バー */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-in {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+}
+
+.brand {
+  color: var(--text);
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.theme-toggle {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text);
+  line-height: 1;
+}
+
+.site-header {
+  text-align: center;
+  padding: 1.4rem 1rem 0.4rem;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  background: linear-gradient(92deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--accent);
+}
+
+.tagline {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* 🃏 カード */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.card h2 {
+  margin: 0 0 0.7rem;
+  font-size: 1.05rem;
+  position: relative;
+  padding-left: 0.75rem;
+}
+
+.card h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+}
+
+.card p { margin: 0 0 0.6rem; }
+.card p:last-child { margin-bottom: 0; }
+
+/* 📝 参加者入力欄 */
+textarea {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* 💡 プレースホルダはブラウザ既定色だと薄くて読みにくいため、補助文字色で明示する（入力文字よりは弱く、両テーマでコントラスト4.5以上） */
+textarea::placeholder { color: var(--muted); opacity: 1; }
+
+textarea:focus,
+.draw-controls input[type="number"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(106, 141, 255, 0.25);
+}
+
+.draw-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.draw-controls label { font-weight: 700; }
+
+.draw-controls input[type="number"] {
+  width: 5.5rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+}
+
+.note-inline { color: var(--muted); }
+
+/* 🎲 抽選表示 */
+.shuffle-display {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 800;
+  min-height: 2.6rem;
+  margin: 0.4rem 0 0.6rem;
+  background: linear-gradient(92deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--accent);
+  word-break: break-all;
+}
+
+.shuffle-display.is-shuffling { opacity: 0.85; }
+
+.result-area { margin-bottom: 0.6rem; }
+
+.result-area:empty { display: none; }
+
+/* 🏆 当選者一覧 */
+.result-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.result-list li {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 0.55rem 0.8rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+  word-break: break-all;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.actions .btn { flex: 1 1 8rem; }
+
+/* 🔘 ボタン */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background: var(--panel-2);
+  color: var(--text);
+  transition: border-color 0.15s ease, filter 0.15s ease;
+}
+
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #ffffff;
+  border-color: transparent;
+  font-weight: 700;
+  font-size: 1.15rem;
+  padding: 0.75rem 1rem;
+}
+
+.btn-primary:hover:not(:disabled) {
+  border-color: transparent;
+  filter: brightness(1.1);
+}
+
+.note {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0.3rem 0 0;
+  min-height: 1.1em;
+}
+
+/* 🕘 履歴一覧 */
+.history-list {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.history-list li {
+  padding: 0.35rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.history-list .winners { font-weight: 700; }
+
+.history-list .time {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 0.6rem 1rem 1.6rem;
+}
+
+/* 🖨️ 印刷用見出しは画面では非表示 */
+.print-title { display: none; }
+
+/* 🖨️ 印刷：入力UIを隠し、抽選結果（当選者）だけを紙面に出す */
+@media print {
+  body { background: #ffffff; color: #000000; }
+  .topbar,
+  .site-header,
+  .site-footer,
+  #participantsCard,
+  #historyCard,
+  #aboutCard,
+  #drawCard h2,
+  .draw-controls,
+  .shuffle-display,
+  .actions,
+  .note { display: none !important; }
+  main { max-width: none; padding: 0; display: block; }
+  .card {
+    background: #ffffff;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+  .print-title {
+    display: block !important;
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    color: #000000;
+  }
+  .result-area { margin: 0; }
+  .result-list li {
+    border: 1px solid #000000;
+    background: #ffffff;
+    color: #000000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

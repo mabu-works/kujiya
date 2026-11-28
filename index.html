@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>くじや｜抽選ツール</title>
+<meta name="description" content="参加者リストから複数人を一度に選べる当選者抽選ツール。抽選アニメーション、履歴、再抽選つき。">
+<meta name="theme-color" content="#0a0f1c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script>
+// 🌙 保存済みテーマを先に適用する（ちらつき防止）
+try {
+  var savedTheme = localStorage.getItem("kujiya-theme");
+  if (savedTheme === "light" || savedTheme === "dark") {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }
+} catch (e) { /* テーマ保存が使えない環境ではダークを既定にする */ }
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 🧭 上部バー -->
+<nav class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#">くじや</a>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="テーマ切り替え">🌙</button>
+  </div>
+</nav>
+
+<header class="site-header">
+  <h1>くじや</h1>
+  <p class="tagline">抽選ツール</p>
+</header>
+
+<main>
+  <!-- 👥 参加者カード -->
+  <section class="card" id="participantsCard">
+    <h2>参加者（<span id="participantCount">0</span>人）</h2>
+    <textarea id="participantsArea" rows="10" placeholder="1行に1人ずつ入力してください（貼り付け対応）&#10;例：&#10;田中&#10;佐藤&#10;鈴木"></textarea>
+    <p class="note">空行は無視されます。同名でも別々の人として扱います（同姓同名対応）。参加者リストと当選人数はこのブラウザに自動保存され、次回開いたときに復元されます。「リストをクリア」を押すと保存も消えます。</p>
+    <div class="actions">
+      <button id="clearBtn" class="btn btn-sub" type="button">リストをクリア</button>
+      <button id="sampleBtn" class="btn btn-sub" type="button">サンプルを入れる</button>
+    </div>
+  </section>
+
+  <!-- 🎲 抽選カード -->
+  <section class="card draw-card" id="drawCard">
+    <h2>抽選</h2>
+    <h3 class="print-title">当選者</h3>
+    <div class="draw-controls">
+      <label for="winnerCount">当選人数</label>
+      <input id="winnerCount" type="number" min="1" step="1" value="1">
+      <span class="note-inline">人</span>
+    </div>
+    <div id="shuffleDisplay" class="shuffle-display" aria-live="polite">参加者を入れて「抽選する」を押してね</div>
+    <div id="resultArea" class="result-area" aria-live="polite"></div>
+    <div class="actions">
+      <button id="drawBtn" class="btn btn-primary" type="button">抽選する</button>
+      <button id="redrawBtn" class="btn btn-sub" type="button" disabled>当選者を除いて再抽選</button>
+      <button id="copyResultBtn" class="btn btn-sub" type="button" disabled>結果をコピー</button>
+      <button id="printBtn" class="btn btn-sub" type="button" disabled>結果を印刷</button>
+    </div>
+    <p id="drawMsg" class="note" aria-live="polite"></p>
+    <p id="copyMsg" class="note" aria-live="polite"></p>
+    <p class="note">「当選者を除いて再抽選」は、これまでの抽選で当選した人を候補から外して抽選します。</p>
+  </section>
+
+  <!-- 🕘 履歴カード -->
+  <section class="card" id="historyCard">
+    <h2>抽選履歴</h2>
+    <ol id="historyList" class="history-list"></ol>
+    <p id="historyEmpty" class="note">まだ履歴はありません。</p>
+    <div class="actions">
+      <button id="clearHistoryBtn" class="btn btn-sub" type="button" disabled>履歴をクリア</button>
+    </div>
+  </section>
+
+  <!-- ℹ️ ルーレットとの違い -->
+  <section class="card" id="aboutCard">
+    <h2>ルーレット（ルレット）との違い</h2>
+    <p>「くじや」は、参加者リストから<strong>複数人を一度に選ぶ「当選者抽選」</strong>向けのツールです。プレゼント企画の当選者決めや、順番・担当をまとめて決めたいときに向いています。当選人数を指定でき、当選者が重複することはありません。過去の当選者を除いた再抽選もできます。</p>
+    <p>一方、<strong>ルーレットは1つの項目を楽しく選ぶ</strong>ためのものです。「今日の晩ごはんはどれ？」のように、候補の中から1つをホイールを回して決める演出を楽しみたいときはルーレットが向いています。</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <!-- 📄 ページ下部 -->
+  <p>くじや — 入力内容はブラウザ内でのみ処理されます</p>
+</footer>
+
+<script src="js/draw-core.js"></script>
+<script src="app.js"></script>
+<script>
+// 📦 Service Worker を登録する
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+</script>
+</body>
+</html>

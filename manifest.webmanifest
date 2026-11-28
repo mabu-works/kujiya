@@ -1,0 +1,1 @@
+{"background_color":"#0a0f1c","description":"参加者リストから複数人を一度に選べる当選者抽選ツール","display":"standalone","icons":[{"sizes":"192x192","src":"icons/icon-192.png","type":"image/png"},{"sizes":"512x512","src":"icons/icon-512.png","type":"image/png"}],"lang":"ja","name":"くじや｜抽選ツール","scope":"./","short_name":"くじや","start_url":"./index.html","theme_color":"#0a0f1c"}
